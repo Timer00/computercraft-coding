@@ -8,10 +8,15 @@
         "types": ["@jackmacwindows/lua-types/cc-5.2", "@jackmacwindows/craftos-types", "@jackmacwindows/cc-types"]
     },
     "tstl": {
+        "buildMode": "default",
         "luaTarget": "CC-5.2",
-        "luaLibImport": "require"
+        "luaLibImport": "inline"
     },
     "include": [
-        "**/*.ts"
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "types"
     ]
 }
