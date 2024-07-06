@@ -13,7 +13,10 @@
         "luaLibImport": "inline"
     },
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "programs/**/*.ts",
+        "lib/**/*.ts",
+        "./*.ts"
     ],
     "exclude": [
         "node_modules",

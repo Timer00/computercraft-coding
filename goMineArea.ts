@@ -1,5 +1,5 @@
-import { checkAndRefuel } from "../lib/checkAndRefuel";
-import { mineArea } from "../lib/mineArea";
+import { checkAndRefuel } from "./checkAndRefuel";
+import { mineArea } from "./mineArea";
 
 print("What is the width and length to mine?");
 const [width, length] = read().split(" ").map(s => parseInt(s));
@@ -12,6 +12,7 @@ print("Fueled: ", checkAndRefuel(fuelNeeded))
 const currentFuelLevel = turtle.getFuelLevel();
 
 if (currentFuelLevel < fuelNeeded) {
+  // @ts-ignore
   return "More fuel needed.";
 }
 
