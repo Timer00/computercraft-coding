@@ -3,3 +3,26 @@ export function goForward(blocks: number) {
     turtle.forward();
   }
 }
+
+export function goBackwards(blocks: number) {
+  for (let i = 0; i < blocks; i++) {
+    turtle.back();
+  }
+}
+
+export function goDown(blocks: number) {
+  for (let i = 0; i < blocks; i++) {
+    turtle.down();
+  }
+}
+
+export enum Side {
+  left = 1,
+  right = 0
+}
+
+export function turnTimes(side: Side, times: number) {
+  for (let i = 0; i < times; i++) {
+    side ? turtle.turnLeft() : turtle.turnRight()
+  }
+}
