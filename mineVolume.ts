@@ -8,7 +8,16 @@ import turnLeft = turtle.turnLeft;
 import digDown = turtle.digDown;
 import down = turtle.down;
 
-export function mineVolume(width: number, length: number, height: number, goBack = false, inVolume = false) {
+interface Config {
+  goBack?: boolean;
+  inVolume?: boolean;
+  // When using onDig ensure that the turtle will endup positioned in the same place and facing the same direction as it was.
+  onDig?: (x: number, y: number, z: number, width: number, height: number, length: number) => void;
+}
+
+export function mineVolume(width: number, length: number, height: number, config?: Config) {
+
+  const { goBack = false, inVolume = false, onDig = () => {} } = config;
 
   // Get the turtle in position
   if (inVolume) {
@@ -23,7 +32,8 @@ export function mineVolume(width: number, length: number, height: number, goBack
   for (z = 0; z < length; z++) {
     for (y = 0; y < height; y++) {
       for (x = 0; x < width - 1; x++) {
-        forceForward()
+        onDig(x, y, z, width, height, length);
+        forceForward();
       }
       if (y !== height - 1) {
         if (z % 2 === 0) {

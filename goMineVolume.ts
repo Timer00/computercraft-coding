@@ -11,4 +11,4 @@ if (!checkAndRefuel(fuelNeeded)) // @ts-ignore
 
 print(`Will mine width: ${width}, height: ${height}, length: ${length}.`);
 
-print(mineVolume(width, length, height, !!goBack));
+print(mineVolume(width, length, height, { goBack: !!goBack }));
