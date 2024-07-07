@@ -14,8 +14,7 @@ export function mineVolume(width: number, length: number, height: number, goBack
   if (inVolume) {
     turnRight();
   } else {
-    dig();
-    forward();
+    forceForward();
     turnRight();
   }
 
@@ -24,8 +23,7 @@ export function mineVolume(width: number, length: number, height: number, goBack
   for (z = 0; z < length; z++) {
     for (y = 0; y < height; y++) {
       for (x = 0; x < width - 1; x++) {
-        dig();
-        forward();
+        forceForward()
       }
       if (y !== height - 1) {
         if (z % 2 === 0) {
@@ -37,7 +35,6 @@ export function mineVolume(width: number, length: number, height: number, goBack
         }
         y % 2 === 0 ? turnTimes(Side.right, 2) : turnTimes(Side.left, 2);
       }
-      os.sleep(0);
     }
     if (z === length - 1) {// last layer -> Go back to initial position
       if (z % 2 === 0) { // turtle has mined up
@@ -71,6 +68,5 @@ export function mineVolume(width: number, length: number, height: number, goBack
       forward();
       turnRight();
     }
-    os.sleep(0);
   }
 }
