@@ -66,5 +66,6 @@ export function checkAndRefuel(minMovesNeeded?: number, slot: number = 1): boole
     return true;
   }
 
+  print("Refueling...")
   return turtle.refuel(amountItemsToConsume);
 }

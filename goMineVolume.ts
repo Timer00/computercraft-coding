@@ -1,19 +1,14 @@
 import { checkAndRefuel } from "./checkAndRefuel";
 import { mineVolume } from "./mineVolume";
 
-const [width, height, length] = [...$vararg].map(a => parseInt(a));
+const [width, height, length, goBack] = [...$vararg].map(a => parseInt(a));
 
-const fuelNeeded = width * height * length;
+// Make sure there is enough fuel to go back
+const fuelNeeded = width * height * length + (goBack ? width + length : 0);
 
-print("Fueled: ", checkAndRefuel(fuelNeeded))
-
-const currentFuelLevel = turtle.getFuelLevel();
-
-if (currentFuelLevel < fuelNeeded) {
-  // @ts-ignore
-  return "More fuel needed.";
-}
+if (!checkAndRefuel(fuelNeeded)) // @ts-ignore
+  return "More fuel needed"
 
 print(`Will mine width: ${width}, height: ${height}, length: ${length}.`);
 
-mineVolume(width, length, height);
+print(mineVolume(width, length, height, !!goBack));

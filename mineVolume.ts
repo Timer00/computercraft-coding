@@ -1,4 +1,4 @@
-import { goBackwards, goDown, Side, turnTimes } from "./movement";
+import { forceForward, goBackwards, goDown, Side, turnTimes } from "./movement";
 import turnRight = turtle.turnRight;
 import dig = turtle.dig;
 import forward = turtle.forward;
@@ -8,7 +8,7 @@ import turnLeft = turtle.turnLeft;
 import digDown = turtle.digDown;
 import down = turtle.down;
 
-export function mineVolume(width: number, length: number, height: number, inVolume = false) {
+export function mineVolume(width: number, length: number, height: number, goBack = false, inVolume = false) {
 
   // Get the turtle in position
   if (inVolume) {
@@ -37,20 +37,24 @@ export function mineVolume(width: number, length: number, height: number, inVolu
         }
         y % 2 === 0 ? turnTimes(Side.right, 2) : turnTimes(Side.left, 2);
       }
+      os.sleep(0);
     }
     if (z === length - 1) {// last layer -> Go back to initial position
-      if (z % 2 === 0) { // turtle is mining up
+      if (z % 2 === 0) { // turtle has mined up
         if ((height - 1) % 2 === 0) { // turtle is facing right
+          if (!goBack) return 'top right'
           goBackwards(width - 1);
           goDown(height - 1);
           turnLeft();
           goBackwards(length);
         } else { // turtle is facing left
+          if (!goBack) return 'top left'
           goDown(height - 1);
           turnRight();
           goBackwards(length);
         }
-      } else { // turtle is mining down facing left
+      } else { // turtle has mined down facing left
+        if (!goBack) return 'bottom left'
         turnRight();
         goBackwards(length);
       }
@@ -67,6 +71,6 @@ export function mineVolume(width: number, length: number, height: number, inVolu
       forward();
       turnRight();
     }
-
+    os.sleep(0);
   }
 }
