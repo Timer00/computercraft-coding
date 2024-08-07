@@ -1,9 +1,16 @@
-export function forceForward(){
-  let wentForward = false;
-  while (!wentForward) {
-    turtle.dig();
-    wentForward = turtle.forward();
+export function forceForward(blocks: number = 1) {
+  for (let i = 0; i < blocks; i++) {
+    let wentForward = false;
+    while (!wentForward) {
+      turtle.dig();
+      wentForward = turtle.forward();
+    }
   }
+}
+
+export function forcePlaceDown(){
+  turtle.digDown(); // Ensure block under is free.
+  turtle.placeDown();
 }
 
 export function goForward(blocks: number) {
