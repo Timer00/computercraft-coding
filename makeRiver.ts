@@ -1,11 +1,14 @@
 import { checkAndRefuel } from "./checkAndRefuel";
 import { forceForward, forcePlaceDown } from "./movement";
 
-// Resulting length of the river -> length * 2 + 1
-const [length] = [...$vararg].map(a => parseInt(a));
+let [length] = [...$vararg].map(a => parseInt(a));
 
 // Accounting for the traveling needed to pick up & place the water.
 const fuelNeeded = 2 * (length * 2 + 1);
+
+// The resulting length of the river -> length * 2 + 1
+// This calculation should match the input length to the resulting length
+length = length / 2 - 1;
 
 for (let i = 1; i < 2; i++) { // Check for water buckets
   const item = turtle.getItemDetail(i) as ItemDetail;
