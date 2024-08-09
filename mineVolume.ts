@@ -17,7 +17,7 @@ interface Config {
 
 export function mineVolume(width: number, length: number, height: number, config?: Config) {
 
-  const { goBack = false, inVolume = false, onDig = () => {} } = config;
+  const { goBack = false, inVolume = false, onDig = (x, y, z) => {print(x, y, z);} } = config;
 
   // Get the turtle in position
   if (inVolume) {
@@ -27,56 +27,56 @@ export function mineVolume(width: number, length: number, height: number, config
     turnRight();
   }
 
-  let [x, y, z] = [0, 0, 0];
+  let [x, y, z] = [1, 1, 1];
+  let [vx, vy, vz] = [1, 1, 1];
 
-  for (z = 0; z < length; z++) {
-    for (y = 0; y < height; y++) {
-      for (x = 0; x < width - 1; x++) {
+  // TODO: Try using the old system (with improvements) and keeping track of the coordinates separately instead of in the for loops.
+  // TODO: Try approach of real coordinates
+  for (z = 1; z < length + 1; z += vz) {
+    for (vy === 1 ? y = 1 : y = height; vy === 1 ? y < height + 1 : y > 0; y += vy) {
+      for (vx === 1 ? x = 1 : x = width; vx === 1 ? x < width : x > 1; x += vx) {
         onDig(x, y, z, width, height, length);
         forceForward();
       }
-      if (y !== height - 1) {
-        if (z % 2 === 0) {
+      if (z % 2 !== 0) { // mining up
+        if (y < height) {
           digUp();
           up();
-        } else {
+          onDig(x, y, z, width, height, length);
+          vx = -vx;
+          turnTimes(Side.left, 2);// Turn 180
+        }
+      } else { // mining down
+        if (y > 1) {
           digDown();
           down();
+          onDig(x, y, z, width, height, length);
+          vx = -vx;
+          turnTimes(Side.left, 2);// Turn 180
         }
-        y % 2 === 0 ? turnTimes(Side.right, 2) : turnTimes(Side.left, 2);
       }
     }
-    if (z === length - 1) {// last layer -> Go back to initial position
-      if (z % 2 === 0) { // turtle has mined up
-        if ((height - 1) % 2 === 0) { // turtle is facing right
-          if (!goBack) return 'top right'
-          goBackwards(width - 1);
-          goDown(height - 1);
-          turnLeft();
-          goBackwards(length);
-        } else { // turtle is facing left
-          if (!goBack) return 'top left'
-          goDown(height - 1);
-          turnRight();
-          goBackwards(length);
-        }
-      } else { // turtle has mined down facing left
-        if (!goBack) return 'bottom left'
+    if (z < length) {
+      if (z % 2 !== 0) { // turtle is mining up
+        y = height;
+        (height - 1) % 2 === 0 ? turnLeft() : turnRight();
+        dig();
+        forward();
+        onDig(x, y, z, width, height, length);
+        (height - 1) % 2 === 0 ? turnLeft() : turnRight();
+        vy = -vy;
+        vx = -vx;
+      } else { // turtle is mining down
+        y = 1;
         turnRight();
-        goBackwards(length);
+        dig();
+        forward();
+        onDig(x, y, z, width, height, length);
+        turnRight();
+        vy = -vy;
+        vx = -vx;
       }
-      continue;
     }
-    if (z % 2 === 0) { // turtle is mining up
-      (height - 1) % 2 === 0 ? turnLeft() : turnRight();
-      dig();
-      forward();
-      (height - 1) % 2 === 0 ? turnLeft() : turnRight();
-    } else { // turtle is mining down
-      turnRight();
-      dig();
-      forward();
-      turnRight();
-    }
+
   }
 }
