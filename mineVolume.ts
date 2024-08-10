@@ -40,17 +40,17 @@ export function mineVolume(width: number, length: number, height: number, config
       }
       if (z % 2 !== 0) { // mining up
         if (y < height) {
+          onDig(x, y, z, width, height, length);
           digUp();
           up();
-          onDig(x, y, z, width, height, length);
           vx = -vx;
           turnTimes(Side.left, 2);// Turn 180
         }
       } else { // mining down
         if (y > 1) {
+          onDig(x, y, z, width, height, length);
           digDown();
           down();
-          onDig(x, y, z, width, height, length);
           vx = -vx;
           turnTimes(Side.left, 2);// Turn 180
         }
@@ -59,24 +59,24 @@ export function mineVolume(width: number, length: number, height: number, config
     if (z < length) {
       if (z % 2 !== 0) { // turtle is mining up
         y = height;
+        onDig(x, y, z, width, height, length);
         (height - 1) % 2 === 0 ? turnLeft() : turnRight();
         dig();
         forward();
-        onDig(x, y, z, width, height, length);
         (height - 1) % 2 === 0 ? turnLeft() : turnRight();
         vy = -vy;
         vx = -vx;
       } else { // turtle is mining down
         y = 1;
+        onDig(x, y, z, width, height, length);
         turnRight();
         dig();
         forward();
-        onDig(x, y, z, width, height, length);
         turnRight();
         vy = -vy;
         vx = -vx;
       }
     }
-
   }
+  onDig(1, 1, z - 1, width, height, length);
 }
