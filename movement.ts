@@ -8,6 +8,16 @@ export function forceForward(blocks: number = 1) {
   }
 }
 
+export function forceDown(blocks: number = 1) {
+  for (let i = 0; i < blocks; i++) {
+    let went = false;
+    while (!went) {
+      turtle.digDown();
+      went = turtle.down();
+    }
+  }
+}
+
 export function forcePlaceDown(){
   turtle.digDown(); // Ensure block under is free.
   turtle.placeDown();
