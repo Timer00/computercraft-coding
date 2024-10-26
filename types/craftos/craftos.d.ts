@@ -59,12 +59,12 @@ declare namespace colours {
 }
 /** @noSelf **/
 declare namespace commands {
-  function exec(command: string): LuaMultiReturn<[boolean, LuaTable | Object]>;
+  function exec(command: string): LuaMultiReturn<[boolean, string[], number | undefined]>;
   function execAsync(command: string): number;
-  function list(command: string): LuaTable | Object;
+  function list(command: string): string[];
   function getBlockPosition(): LuaMultiReturn<[number, number, number]>;
-  function getBlockInfo(x: number, y: number, z: number): LuaTable | Object;
-  function getBlockInfos(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number): LuaTable | Object;
+  function getBlockInfo(x: number, y: number, z: number, dimension?: string): LuaTable | Object;
+  function getBlockInfos(x1: number, y1: number, z1: number, x2: number, y2: number, z2: number, dimension?: string): (LuaTable | Object)[];
 }
 /** @noSelf **/
 declare namespace disk {
@@ -148,7 +148,7 @@ declare namespace gps {
 declare namespace help {
     function path(): string;
     function setPath(path: string): void;
-    function lookup(topic: string): string;
+    function lookup(topic: string): string | undefined;
     function topics(): string[];
     function completeTopic(prefix: string): string[];
 }
@@ -323,7 +323,7 @@ declare const keys: {
 /** @noSelf **/
 declare namespace multishell {
     function getFocus(): number;
-    function setFocus(n: number): void;
+    function setFocus(n: number): boolean;
     function getTitle(n: number): string | undefined;
     function setTitle(n: number, title: string): void;
     function getCurrent(): number;
@@ -542,8 +542,8 @@ declare namespace peripheral {
     function getMethods(name: string): string[]|undefined;
     function getName(peripheral: IPeripheral): string;
     function call(side: string, method: string, ...args: any[]): LuaMultiReturn<[...any[]]>;
-    function wrap(name: string): IPeripheral;
-    function find(type: string, filter?: (peripheral: IPeripheral) => boolean): LuaMultiReturn<[...IPeripheral[]]>;
+    function wrap(name: string): IPeripheral | undefined;
+    function find(type: string, filter?: (name: string, peripheral: IPeripheral) => boolean): LuaMultiReturn<[...IPeripheral[]]>;
 }
 /** @noSelf **/
 declare namespace pocket {
@@ -554,15 +554,16 @@ declare namespace pocket {
 declare namespace rednet {
     var CHANNEL_BROADCAST: number;
     var CHANNEL_REPEAT: number;
+    var MAX_ID_CHANNELS: number;
     function open(modem: string): void;
     function close(modem?: string): void;
-    function isOpen(modem?: string): void;
-    function send(recipient: number, message: any, protocol?: string): void;
+    function isOpen(modem?: string): boolean;
+    function send(recipient: number, message: any, protocol?: string): boolean;
     function broadcast(message: any, protocol?: string): void;
-    function receive(filter?: string | undefined, timeout?: number): LuaMultiReturn<[number, any, string | undefined] | [undefined]>;
+    function receive(filter?: string, timeout?: number): LuaMultiReturn<[number, any, string | undefined] | [undefined]>;
     function host(protocol: string, hostname: string): void;
     function unhost(protocol: string): void;
-    function lookup(protocol: string, hostname?: string): void;
+    function lookup(protocol: string, hostname?: string): LuaMultiReturn<[...number[]]>;
     function run(): void;
 }
 /** @noSelf **/
@@ -597,8 +598,8 @@ declare namespace settings {
     function unset(name: string): void;
     function clear(): void;
     function getNames(): string[];
-    function load(path?: string): void;
-    function save(path?: string): void;
+    function load(path?: string): boolean;
+    function save(path?: string): boolean;
 }
 /** @noSelf **/
 declare namespace shell {
@@ -743,61 +744,60 @@ declare namespace textutils {
 }
 /** @noSelf **/
 declare namespace turtle {
-  function craft(quantity: number): boolean;
-  function forward(): boolean;
-  function back(): boolean;
-  function up(): boolean;
-  function down(): boolean;
-  function turnLeft(): boolean;
-  function turnRight(): boolean;
-  function select(slotNum: number): boolean;
+  function craft(quantity?: number): LuaMultiReturn<[true, undefined] | [false, string]>;
+  function forward(): LuaMultiReturn<[boolean, string | undefined]>;
+  function back(): LuaMultiReturn<[boolean, string | undefined]>;
+  function up(): LuaMultiReturn<[boolean, string | undefined]>;
+  function down(): LuaMultiReturn<[boolean, string | undefined]>;
+  function turnLeft(): LuaMultiReturn<[boolean, string | undefined]>;
+  function turnRight(): LuaMultiReturn<[boolean, string | undefined]>;
+  function select(slotNum: number): true;
   function getSelectedSlot(): number;
 
   function getItemCount(slotNum?: number): number;
 
   function getItemSpace(slotNum?: number): number;
 
-  function getItemDetail(slotNum?: number): LuaTable | Object;
+  function getItemDetail(slotNum?: number, detailed?: boolean): LuaTable | Object | undefined;
 
-  function equipLeft(): boolean;
-  function equipRight(): boolean;
+  function equipLeft(): LuaMultiReturn<[true, undefined] | [false, string]>;
+  function equipRight(): LuaMultiReturn<[true, undefined] | [false, string]>;
 
-  function attack(toolSide?: string): boolean;
-  function attackUp(toolSide?: string): boolean;
-  function attackDown(toolSide?: string): boolean;
+  function attack(toolSide?: 'left' | 'right'): LuaMultiReturn<[boolean, string | undefined]>;
+  function attackUp(toolSide?: 'left' | 'right'): LuaMultiReturn<[boolean, string | undefined]>;
+  function attackDown(toolSide?: 'left' | 'right'): LuaMultiReturn<[boolean, string | undefined]>;
 
-  function dig(toolSide?: string): boolean;
-  function digUp(toolSide?: string): boolean;
-  function digDown(toolSide?: string): boolean;
+  function dig(toolSide?: 'left' | 'right'): LuaMultiReturn<[boolean, string | undefined]>;
+  function digUp(toolSide?: 'left' | 'right'): LuaMultiReturn<[boolean, string | undefined]>;
+  function digDown(toolSide?: 'left' | 'right'): LuaMultiReturn<[boolean, string | undefined]>;
 
-  function place(toolSide?: string): boolean;
-  function placeUp(toolSide?: string): boolean;
-  function placeDown(toolSide?: string): boolean;
+  function place(text?: string): LuaMultiReturn<[boolean, string | undefined]>;
+  function placeUp(text?: string): LuaMultiReturn<[boolean, string | undefined]>;
+  function placeDown(text?: string): LuaMultiReturn<[boolean, string | undefined]>;
 
-  function detect(toolSide?: string): boolean;
-  function detectUp(toolSide?: string): boolean;
-  function detectDown(toolSide?: string): boolean;
+  function detect(): boolean;
+  function detectUp(): boolean;
+  function detectDown(): boolean;
 
-  function inspect(toolSide?: string): LuaMultiReturn<[boolean, LuaTable | Object | string]>;
-  function inspectUp(toolSide?: string): LuaMultiReturn<[boolean, LuaTable | Object | string]>;
-  function inspectDown(toolSide?: string): LuaMultiReturn<[boolean, LuaTable | Object | string]>;
+  function inspect(): LuaMultiReturn<[boolean, LuaTable | Object | string]>;
+  function inspectUp(): LuaMultiReturn<[boolean, LuaTable | Object | string]>;
+  function inspectDown(): LuaMultiReturn<[boolean, LuaTable | Object | string]>;
 
-  function compare(toolSide?: string): boolean;
-  function compareUp(toolSide?: string): boolean;
-  function compareDown(toolSide?: string): boolean;
+  function compare(): boolean;
+  function compareUp(): boolean;
+  function compareDown(): boolean;
 
-  function drop(toolSide?: string): boolean;
-  function dropUp(toolSide?: string): boolean;
-  function dropDown(toolSide?: string): boolean;
+  function drop(count?: number): LuaMultiReturn<[boolean, string | undefined]>;
+  function dropUp(count?: number): LuaMultiReturn<[boolean, string | undefined]>;
+  function dropDown(count?: number): LuaMultiReturn<[boolean, string | undefined]>;
 
-  function suck(toolSide?: string): boolean;
-  function suckUp(toolSide?: string): boolean;
-  function suckDown(toolSide?: string): boolean;
+  function suck(count?: number): LuaMultiReturn<[boolean, string | undefined]>;
+  function suckUp(count?: number): LuaMultiReturn<[boolean, string | undefined]>;
+  function suckDown(count?: number): LuaMultiReturn<[boolean, string | undefined]>;
 
-  function refuel(): boolean;
-  function refuel(quantity: number): boolean;
-  function getFuelLevel(): number;
-  function getFuelLimit(): number;
+  function refuel(count?: number): LuaMultiReturn<[true, undefined] | [false, string]>;
+  function getFuelLevel(): number | 'unlimited';
+  function getFuelLimit(): number | 'unlimited';
 
   function transferTo(slotNum: number, quantity?: number): boolean;
 }
@@ -812,7 +812,7 @@ declare class Vector {
     public mul(this: Vector, o: number): Vector;
     public div(this: Vector, o: number): Vector;
     public unm(this: Vector): Vector;
-    public dot(this: Vector, o: Vector): Vector;
+    public dot(this: Vector, o: Vector): number;
     public cross(this: Vector, o: Vector): Vector;
     public length(this: Vector): number;
     public normalize(this: Vector): Vector;
