@@ -8,9 +8,14 @@ export function forceForward(blocks: number = 1) {
   }
 }
 
-export function forcePlaceDown(){
+export function forcePlaceDown() {
   turtle.digDown(); // Ensure block under is free.
   turtle.placeDown();
+}
+
+export function forcePlace() {
+  turtle.dig(); // Ensure block ahead is free.
+  turtle.place();
 }
 
 export function goForward(blocks: number) {
