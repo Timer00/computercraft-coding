@@ -24,7 +24,6 @@ export function mineVolume(width: number, length: number, height: number, config
   const { goBack = false, inVolume = false, onDig = (x, y, z, direction) => {print(x, y, z, direction);} } = config;
 
   const directionTracker = new TurtleDirection();
-  const direction = directionTracker.direction;
 
   // Get the turtle in position
   if (inVolume) {
@@ -46,12 +45,12 @@ export function mineVolume(width: number, length: number, height: number, config
   for (z = 1; z < length + 1; z += vz) {
     for (vy === 1 ? y = 1 : y = height; vy === 1 ? y < height + 1 : y > 0; y += vy) {
       for (vx === 1 ? x = 1 : x = width; vx === 1 ? x < width : x > 1; x += vx) {
-        onDig(x, y, z, direction, width, height, length);
+        onDig(x, y, z, directionTracker.direction, width, height, length);
         forceForward();
       }
       if (z % 2 !== 0) { // mining up
         if (y < height) {
-          onDig(x, y, z, direction, width, height, length);
+          onDig(x, y, z, directionTracker.direction, width, height, length);
           digUp();
           up();
           vx = -vx;
@@ -60,7 +59,7 @@ export function mineVolume(width: number, length: number, height: number, config
         }
       } else { // mining down
         if (y > 1) {
-          onDig(x, y, z, direction, width, height, length);
+          onDig(x, y, z, directionTracker.direction, width, height, length);
           digDown();
           down();
           vx = -vx;
@@ -72,7 +71,7 @@ export function mineVolume(width: number, length: number, height: number, config
     if (z < length) {
       if (z % 2 !== 0) { // turtle is mining up
         y = height;
-        onDig(x, y, z, direction, width, height, length);
+        onDig(x, y, z, directionTracker.direction, width, height, length);
         (height - 1) % 2 === 0 ? turnLeft() : turnRight();
         (height - 1) % 2 === 0 ? directionTracker.turnLeft() : directionTracker.turnRight();
         dig();
@@ -83,7 +82,7 @@ export function mineVolume(width: number, length: number, height: number, config
         vx = -vx;
       } else { // turtle is mining down
         y = 1;
-        onDig(x, y, z, direction, width, height, length);
+        onDig(x, y, z, directionTracker.direction, width, height, length);
         turnRight();
         directionTracker.turnRight();
         dig();
@@ -95,5 +94,5 @@ export function mineVolume(width: number, length: number, height: number, config
       }
     }
   }
-  onDig(1, 1, z - 1, direction, width, height, length);
+  onDig(1, 1, z - 1, directionTracker.direction, width, height, length);
 }
