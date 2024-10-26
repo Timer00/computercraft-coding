@@ -5,7 +5,7 @@ enum Direction {
   Left = 3
 }
 
-type DirectionString = 'forward' | 'right' | 'backward' | 'left';
+export type DirectionString = 'forward' | 'right' | 'backward' | 'left';
 
 // TODO: Integrate this with the movement functions creating a movement system class
 // Could contain also the xyz coordinates of the turtle

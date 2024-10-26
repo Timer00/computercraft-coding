@@ -37,11 +37,12 @@ export function mineVolume(width: number, length: number, height: number, config
   directionTracker.turnRight();
 
   let [x, y, z] = [1, 1, 1];
-  let [vx, vy, vz] = [1, 1, 1];
+  let [vx, vy, vz] = [1, 1, 1]; // vectors
 
+  // This could be better since I can then update the coordinates every time the turtle moves without worrying that it will throw it's movement off.
+  // Perhaps I can just create like, realX, realY, realZ and then update them every time the turtle moves.
   // TODO: Try using the old system (with improvements) and keeping track of the coordinates separately instead of in the for loops.
-  // TODO: Try approach of real coordinates
-  // I believe these are done. Coordinate system works.
+  // TODO: Need to finish adding onDig to the proper places.
   for (z = 1; z < length + 1; z += vz) {
     for (vy === 1 ? y = 1 : y = height; vy === 1 ? y < height + 1 : y > 0; y += vy) {
       for (vx === 1 ? x = 1 : x = width; vx === 1 ? x < width : x > 1; x += vx) {
@@ -53,6 +54,7 @@ export function mineVolume(width: number, length: number, height: number, config
           onDig(x, y, z, directionTracker.direction, width, height, length);
           digUp();
           up();
+          onDig(x, y+1, z, directionTracker.direction, width, height, length);
           vx = -vx;
           turnTimes(Side.left, 2);// Turn 180
           directionTracker.turnAround();
@@ -62,6 +64,7 @@ export function mineVolume(width: number, length: number, height: number, config
           onDig(x, y, z, directionTracker.direction, width, height, length);
           digDown();
           down();
+          onDig(x, y-1, z, directionTracker.direction, width, height, length);
           vx = -vx;
           turnTimes(Side.left, 2);// Turn 180
           directionTracker.turnAround();
@@ -72,6 +75,7 @@ export function mineVolume(width: number, length: number, height: number, config
       if (z % 2 !== 0) { // turtle is mining up
         y = height;
         onDig(x, y, z, directionTracker.direction, width, height, length);
+        // TODO: Handle movement within direction tracker class.
         (height - 1) % 2 === 0 ? turnLeft() : turnRight();
         (height - 1) % 2 === 0 ? directionTracker.turnLeft() : directionTracker.turnRight();
         dig();
