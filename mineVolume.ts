@@ -1,8 +1,6 @@
 import { forceForward, goBackwards, goDown, Side, turnTimes } from "./movement";
 // Can I simplify these?
 import turnRight = turtle.turnRight;
-import dig = turtle.dig;
-import forward = turtle.forward;
 import digUp = turtle.digUp;
 import up = turtle.up;
 import turnLeft = turtle.turnLeft;
@@ -41,6 +39,7 @@ export function mineVolume(width: number, length: number, height: number, config
 
   // This could be better since I can then update the coordinates every time the turtle moves without worrying that it will throw it's movement off.
   // Perhaps I can just create like, realX, realY, realZ and then update them every time the turtle moves.
+  // Even better, integrate movement AND coordinates into the direction tracker class.
   // TODO: Try using the old system (with improvements) and keeping track of the coordinates separately instead of in the for loops.
   // TODO: Need to finish adding onDig to the proper places.
   for (z = 1; z < length + 1; z += vz) {
@@ -78,8 +77,7 @@ export function mineVolume(width: number, length: number, height: number, config
         // TODO: Handle movement within direction tracker class.
         (height - 1) % 2 === 0 ? turnLeft() : turnRight();
         (height - 1) % 2 === 0 ? directionTracker.turnLeft() : directionTracker.turnRight();
-        dig();
-        forward();
+        forceForward();
         (height - 1) % 2 === 0 ? turnLeft() : turnRight();
         (height - 1) % 2 === 0 ? directionTracker.turnLeft() : directionTracker.turnRight();
         vy = -vy;
@@ -89,8 +87,7 @@ export function mineVolume(width: number, length: number, height: number, config
         onDig(x, y, z, directionTracker.direction, width, height, length);
         turnRight();
         directionTracker.turnRight();
-        dig();
-        forward();
+        forceForward();
         turnRight();
         directionTracker.turnRight();
         vy = -vy;
@@ -98,5 +95,9 @@ export function mineVolume(width: number, length: number, height: number, config
       }
     }
   }
-  onDig(1, 1, z - 1, directionTracker.direction, width, height, length);
+  if ((z - 1) % 2 === 0) {
+    onDig(1, 1, z - 1, directionTracker.direction, width, height, length);
+  } else {
+    onDig(width, height, z - 1, directionTracker.direction, width, height, length);
+  }
 }
