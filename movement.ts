@@ -8,6 +8,11 @@ export function forceForward(blocks: number = 1) {
   }
 }
 
+export function forcePlaceUp() {
+  turtle.digUp(); // Ensure block under is free.
+  turtle.placeUp();
+}
+
 export function forceDown(blocks: number = 1) {
   for (let i = 0; i < blocks; i++) {
     let went = false;
@@ -21,6 +26,11 @@ export function forceDown(blocks: number = 1) {
 export function forcePlaceDown(){
   turtle.digDown(); // Ensure block under is free.
   turtle.placeDown();
+}
+
+export function forcePlace() {
+  turtle.dig(); // Ensure block ahead is free.
+  turtle.place();
 }
 
 export function goForward(blocks: number) {

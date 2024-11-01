@@ -17,13 +17,11 @@
   resolved "https://registry.yarnpkg.com/@jackmacwindows/lua-types/-/lua-types-2.13.2.tgz#c3a618b4e1d748622d3319e396c1953813a19917"
   integrity sha512-XoqHmgtG1SLWzmMx8wQc0sJtPmrzjCFbiwNiBIZE7HOEXWdJi7NDKVlE1nl9A5745Yb5jIkfz2deOzMtHiHVcQ==
 
-"@jackmacwindows/typescript-to-lua@^1.22.0":
+"@jackmacwindows/typescript-to-lua@../TypeScriptToLua":
   version "1.22.0"
-  resolved "https://registry.yarnpkg.com/@jackmacwindows/typescript-to-lua/-/typescript-to-lua-1.22.0.tgz#3beaebc05a0c434a5eff1347259329fd8bc09c7d"
-  integrity sha512-1ZQycU/nNSRxQPPAOWr7366BKauGBnuv7H9ZhUvH7MSY5UyEXVD9ypkXjvoz849HtBwHRCnEOM6fTNWENgwKyQ==
   dependencies:
     "@typescript-to-lua/language-extensions" "1.19.0"
-    enhanced-resolve "^5.8.2"
+    enhanced-resolve "5.8.2"
     picomatch "^2.3.1"
     resolve "^1.15.1"
     source-map "^0.7.3"
@@ -33,10 +31,10 @@
   resolved "https://registry.yarnpkg.com/@typescript-to-lua/language-extensions/-/language-extensions-1.19.0.tgz#e7535ed343bed68580dd96e1a8101a1dbb2dc771"
   integrity sha512-Os5wOKwviTD4LeqI29N0btYOjokSJ97iCf45EOjIABlb5IwNQy7AE/AqZJobRw3ywHH8+KzJUMkEirWPzh2tUA==
 
-enhanced-resolve@^5.8.2:
-  version "5.17.0"
-  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.17.0.tgz#d037603789dd9555b89aaec7eb78845c49089bc5"
-  integrity sha512-dwDPwZL0dmye8Txp2gzFmA6sxALaSvdRDjPH0viLcKrtlOL3tw62nWWweVD1SdILDTJrbrL6tdWVN58Wo6U3eA==
+enhanced-resolve@5.8.2:
+  version "5.8.2"
+  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.8.2.tgz#15ddc779345cbb73e97c611cd00c01c1e7bf4d8b"
+  integrity sha512-F27oB3WuHDzvR2DOGNTaYy0D5o0cnrv8TeI482VM4kYgQd/FT9lUQwuNsJ0oOHtBUq7eiW5ytqzp7nBFknL+GA==
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
@@ -99,7 +97,7 @@ tapable@^2.2.0:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
-typescript@^5.1.0:
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.5.3.tgz#e1b0a3c394190838a0b168e771b0ad56a0af0faa"
-  integrity sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==
+typescript@^5.6.2:
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.3.tgz#5f3449e31c9d94febb17de03cc081dd56d81db5b"
+  integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
